@@ -2,6 +2,7 @@ package com.s103458.server;
 
 import com.s103458.request.*;
 import com.s103458.security.Cryptographer;
+import com.s103458.security.RSAEncryptedDataset;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -19,9 +20,9 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
     }
 
     @Override
-    public String print(byte[] pr) throws RemoteException {
+    public byte[] print(RSAEncryptedDataset red) throws RemoteException {
         try {
-            PrintRequest re = (PrintRequest) Cryptographer.decryptObject(pr,Cryptographer.getPrivateKey());
+            PrintRequest re = (PrintRequest) Cryptographer.decryptObject(red,Cryptographer.getPrivateKey());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -29,9 +30,9 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
     }
 
     @Override
-    public String queue(byte[] qr) throws RemoteException {
+    public byte[] queue(RSAEncryptedDataset red) throws RemoteException {
         try {
-            QueueRequest re = (QueueRequest) Cryptographer.decryptObject(qr,Cryptographer.getPrivateKey());
+            QueueRequest re = (QueueRequest) Cryptographer.decryptObject(red,Cryptographer.getPrivateKey());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -39,9 +40,9 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
     }
 
     @Override
-    public void topQueue(byte[] tqr) throws RemoteException {
+    public void topQueue(RSAEncryptedDataset red) throws RemoteException {
         try {
-            TopQueueRequest re = (TopQueueRequest) Cryptographer.decryptObject(tqr,Cryptographer.getPrivateKey());
+            TopQueueRequest re = (TopQueueRequest) Cryptographer.decryptObject(red,Cryptographer.getPrivateKey());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -49,46 +50,36 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
     }
 
     @Override
-    public void start(byte[] sr) throws RemoteException {
+    public void start(RSAEncryptedDataset red) throws RemoteException {
         try {
-            StartRequest re = (StartRequest) Cryptographer.decryptObject(sr,Cryptographer.getPrivateKey());
+            StartRequest re = (StartRequest) Cryptographer.decryptObject(red,Cryptographer.getPrivateKey());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void stop(byte[] sr) throws RemoteException {
+    public void stop(RSAEncryptedDataset red) throws RemoteException {
         try {
-            StopRequest re = (StopRequest) Cryptographer.decryptObject(sr,Cryptographer.getPrivateKey());
+            StopRequest re = (StopRequest) Cryptographer.decryptObject(red,Cryptographer.getPrivateKey());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void restart(byte[] rr) throws RemoteException {
+    public void restart(RSAEncryptedDataset red) throws RemoteException {
         try {
-            RestartRequest re = (RestartRequest) Cryptographer.decryptObject(rr,Cryptographer.getPrivateKey());
+            RestartRequest re = (RestartRequest) Cryptographer.decryptObject(red,Cryptographer.getPrivateKey());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public String status(byte[] sr) throws RemoteException {
+    public byte[] status(RSAEncryptedDataset red) throws RemoteException {
         try {
-            StatusRequest re = (StatusRequest) Cryptographer.decryptObject(sr,Cryptographer.getPrivateKey());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
-    public String readConfig(byte[] rcr) throws RemoteException {
-        try {
-            ReadConfigRequest re = (ReadConfigRequest) Cryptographer.decryptObject(rcr,Cryptographer.getPrivateKey());
+            StatusRequest re = (StatusRequest) Cryptographer.decryptObject(red,Cryptographer.getPrivateKey());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -96,9 +87,19 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
     }
 
     @Override
-    public void setConfig(byte[] scr) throws RemoteException {
+    public byte[] readConfig(RSAEncryptedDataset red) throws RemoteException {
         try {
-            SetConfigRequest re = (SetConfigRequest) Cryptographer.decryptObject(scr,Cryptographer.getPrivateKey());
+            ReadConfigRequest re = (ReadConfigRequest) Cryptographer.decryptObject(red,Cryptographer.getPrivateKey());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public void setConfig(RSAEncryptedDataset red) throws RemoteException {
+        try {
+            SetConfigRequest re = (SetConfigRequest) Cryptographer.decryptObject(red,Cryptographer.getPrivateKey());
         } catch (Exception e) {
             e.printStackTrace();
         }

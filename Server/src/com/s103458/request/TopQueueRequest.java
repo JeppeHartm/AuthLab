@@ -1,5 +1,6 @@
 package com.s103458.request;
 
+import com.s103458.security.RSAEncryptedDataset;
 import com.s103458.security.Ticket;
 
 /**
@@ -8,7 +9,7 @@ import com.s103458.security.Ticket;
 public class TopQueueRequest extends Request{
     private final int job;
 
-    public TopQueueRequest(Ticket ticket, int reqid, int job) {
+    public TopQueueRequest(RSAEncryptedDataset ticket, int reqid, int job) {
         super(ticket, reqid);
         this.job = job;
     }

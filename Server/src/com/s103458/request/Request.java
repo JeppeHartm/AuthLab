@@ -1,6 +1,7 @@
 package com.s103458.request;
 
 import com.s103458.security.Cryptographer;
+import com.s103458.security.RSAEncryptedDataset;
 import com.s103458.security.Ticket;
 
 import javax.crypto.BadPaddingException;
@@ -14,10 +15,10 @@ import java.security.PrivateKey;
  * Created by Jeppe on 09-11-2015.
  */
 public abstract class Request implements Serializable {
-    byte[] ticket;
+    RSAEncryptedDataset ticket;
     int reqid;
 
-    public Request(byte[] ticket, int reqid) {
+    public Request(RSAEncryptedDataset ticket, int reqid) {
         this.ticket = ticket;
         this.reqid = reqid;
     }

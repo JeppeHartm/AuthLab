@@ -1,5 +1,6 @@
 package com.s103458.request;
 
+import com.s103458.security.RSAEncryptedDataset;
 import com.s103458.security.Ticket;
 import com.sun.org.apache.xpath.internal.operations.String;
 
@@ -9,7 +10,7 @@ import com.sun.org.apache.xpath.internal.operations.String;
 public class ReadConfigRequest extends Request{
     private final String parameter;
 
-    public ReadConfigRequest(Ticket ticket, int reqid, String parameter) {
+    public ReadConfigRequest(RSAEncryptedDataset ticket, int reqid, String parameter) {
         super(ticket, reqid);
         this.parameter = parameter;
     }

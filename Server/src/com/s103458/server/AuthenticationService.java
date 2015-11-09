@@ -1,5 +1,6 @@
 package com.s103458.server;
 
+import com.s103458.security.RSAEncryptedDataset;
 import com.s103458.security.Ticket;
 
 import java.rmi.Remote;
@@ -11,6 +12,6 @@ import java.security.PublicKey;
  */
 public interface AuthenticationService extends Remote {
     PublicKey getKey() throws RemoteException;
-    byte[] login(byte[] cred) throws RemoteException;
+    RSAEncryptedDataset login(RSAEncryptedDataset cred) throws RemoteException;
     boolean logout(Ticket t) throws RemoteException;
 }

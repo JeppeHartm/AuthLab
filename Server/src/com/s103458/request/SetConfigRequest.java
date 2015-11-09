@@ -1,5 +1,6 @@
 package com.s103458.request;
 
+import com.s103458.security.RSAEncryptedDataset;
 import com.s103458.security.Ticket;
 
 /**
@@ -9,7 +10,7 @@ public class SetConfigRequest extends Request{
     private final String parameter;
     private final String value;
 
-    public SetConfigRequest(Ticket ticket, int reqid, String parameter, String value) {
+    public SetConfigRequest(RSAEncryptedDataset ticket, int reqid, String parameter, String value) {
         super(ticket, reqid);
         this.parameter = parameter;
         this.value = value;

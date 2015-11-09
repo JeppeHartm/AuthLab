@@ -2,15 +2,13 @@ package com.s103458.server;
 
 import com.s103458.request.LoginRequest;
 import com.s103458.security.Cryptographer;
+import com.s103458.security.RSAEncryptedDataset;
 import com.s103458.security.Store;
 import com.s103458.security.Ticket;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.security.InvalidKeyException;
 import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Random;
@@ -19,6 +17,7 @@ import java.util.Random;
  * Created by jeppe on 11/4/15.
  */
 public class AuthenticationServant extends UnicastRemoteObject implements AuthenticationService {
+
     ArrayList<Integer> activeTickets = new ArrayList<Integer>();
     public AuthenticationServant() throws RemoteException {
         super();
@@ -30,7 +29,7 @@ public class AuthenticationServant extends UnicastRemoteObject implements Authen
     }
 
     @Override
-    public byte[] login(byte[] cred) throws RemoteException {
+    public RSAEncryptedDataset login(RSAEncryptedDataset cred) throws RemoteException {
         LoginRequest lr = null;
         try {
             lr = (LoginRequest) Cryptographer.decryptObject(cred,Cryptographer.getPrivateKey());
