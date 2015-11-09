@@ -1,10 +1,10 @@
-import javax.xml.crypto.dsig.DigestMethod;
+import com.s103458.server.AuthenticationService;
+import com.s103458.server.PrinterService;
+
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 /**
  * Created by jeppe on 11/4/15.

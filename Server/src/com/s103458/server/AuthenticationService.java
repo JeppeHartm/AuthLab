@@ -1,3 +1,7 @@
+package com.s103458.server;
+
+import com.s103458.security.Ticket;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.security.PublicKey;
@@ -7,6 +11,6 @@ import java.security.PublicKey;
  */
 public interface AuthenticationService extends Remote {
     PublicKey getKey() throws RemoteException;
-    Ticket login(String name, String key) throws RemoteException;
+    byte[] login(byte[] cred) throws RemoteException;
     boolean logout(Ticket t) throws RemoteException;
 }
