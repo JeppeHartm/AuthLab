@@ -13,5 +13,5 @@ import java.security.PublicKey;
 public interface AuthenticationService extends Remote {
     PublicKey getKey() throws RemoteException;
     RSAEncryptedDataset login(RSAEncryptedDataset cred) throws RemoteException;
-    boolean logout(Ticket t) throws RemoteException;
+    boolean logout(RSAEncryptedDataset ticket) throws RemoteException;
 }

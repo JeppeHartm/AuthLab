@@ -1,0 +1,5 @@
+ANONYMOUS=;
+USER=print,queue;
+POWERUSER:USER=topqueue,restart;
+SERVICE=start,stop,status,restart,readconfig,setconfig;
+MANAGER:POWERUSER,SERVICE=;

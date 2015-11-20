@@ -15,4 +15,10 @@ public class PrintRequest extends Request {
         this.filename = filename;
         this.printer = printer;
     }
+    public String getFilename(){
+        return filename;
+    }
+    public String getPrinter(){
+        return printer;
+    }
 }

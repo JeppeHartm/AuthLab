@@ -8,15 +8,19 @@ import java.io.*;
 public class Store {
     static {
         try {
-            store("Jeppe","Hartmund");
+            store("Jeppe",Cryptographer.hash_string("Hartmund"));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
     public static void store(String name, String hashedkey) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("passwords")));
-        writer.write(name+":"+hashedkey);
-        writer.newLine();
+        if(!lookup(name,hashedkey)) {
+            FileWriter fw = new FileWriter("passwords", true);
+            PrintWriter pw = new PrintWriter(fw);
+            pw.println(name + ":" + hashedkey);
+            pw.close();
+            fw.close();
+        }
     }
     public static boolean lookup(String name,String hashedkey) throws IOException {
         BufferedReader reader = null;

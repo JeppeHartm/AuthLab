@@ -1,8 +1,6 @@
 package com.s103458.server;
 
-import com.s103458.request.*;
 import com.s103458.security.RSAEncryptedDataset;
-import com.s103458.security.Ticket;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -23,13 +21,13 @@ public interface PrinterService extends Remote {
     String readConfig(String parameter, Ticket t) throws RemoteException;   // prints the value of the parameter on the user's display
     void setConfig(String parameter, String value, Ticket t) throws RemoteException;   // sets the parameter to value
     */
-    public byte[] print(RSAEncryptedDataset red) throws RemoteException;
-    public byte[] queue(RSAEncryptedDataset red) throws RemoteException;
+    public RSAEncryptedDataset print(RSAEncryptedDataset red) throws RemoteException;
+    public RSAEncryptedDataset queue(RSAEncryptedDataset red) throws RemoteException;
     public void topQueue(RSAEncryptedDataset red) throws RemoteException;
     public void start(RSAEncryptedDataset red) throws RemoteException;
     public void stop(RSAEncryptedDataset red) throws RemoteException;
     public void restart(RSAEncryptedDataset red) throws RemoteException;
-    public byte[] status(RSAEncryptedDataset red) throws RemoteException;
-    public byte[] readConfig(RSAEncryptedDataset red) throws RemoteException;
+    public RSAEncryptedDataset status(RSAEncryptedDataset red) throws RemoteException;
+    public RSAEncryptedDataset readConfig(RSAEncryptedDataset red) throws RemoteException;
     public void setConfig(RSAEncryptedDataset red) throws RemoteException;
 }

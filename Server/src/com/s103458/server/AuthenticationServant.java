@@ -6,9 +6,12 @@ import com.s103458.security.RSAEncryptedDataset;
 import com.s103458.security.Store;
 import com.s103458.security.Ticket;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.security.InvalidKeyException;
 import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Random;
@@ -22,7 +25,9 @@ public class AuthenticationServant extends UnicastRemoteObject implements Authen
     public AuthenticationServant() throws RemoteException {
         super();
     }
-
+    public boolean hasTicket(int ID){
+        return activeTickets.contains(ID);
+    }
     @Override
     public PublicKey getKey() throws RemoteException {
         return Cryptographer.getPublicKey();
@@ -59,7 +64,21 @@ public class AuthenticationServant extends UnicastRemoteObject implements Authen
     }
 
     @Override
-    public boolean logout(Ticket t) throws RemoteException {
-        return activeTickets.removeIf(i -> i == t.getTicketID());
+    public boolean logout(RSAEncryptedDataset ticket) throws RemoteException {
+        try {
+            Ticket t = (Ticket) Cryptographer.decryptObject(ticket,Cryptographer.getPrivateKey());
+            return activeTickets.removeIf(i -> i == t.getTicketID());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (BadPaddingException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

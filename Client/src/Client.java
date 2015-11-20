@@ -16,13 +16,19 @@ import java.security.PublicKey;
  * Created by jeppe on 11/4/15.
  */
 public class Client {
-    public static void main(String[] args) throws IOException, NotBoundException, IllegalBlockSizeException, InvalidKeyException, BadPaddingException {
+    public static void main(String[] args) throws IOException, NotBoundException, IllegalBlockSizeException, InvalidKeyException, BadPaddingException, ClassNotFoundException {
         AuthenticationService authenticator = (AuthenticationService) Naming.lookup("rmi://localhost:8081/authenticator");
         PrinterService printer = (PrinterService) Naming.lookup("rmi://localhost:8081/printer");
-        LoginRequest lr = new LoginRequest("admin","admin","reqid".hashCode(),Cryptographer.getPublicKey());
+        LoginRequest lr = new LoginRequest("Jeppe","Hartmund","reqid".hashCode(),Cryptographer.getPublicKey());
         PublicKey serverKey = authenticator.getKey();
         RSAEncryptedDataset ticket = authenticator.login(Cryptographer.encryptObject(lr,serverKey));
 
         //printer.print(args[3]);
+        PrintRequest pr = new PrintRequest(ticket,"reqid".hashCode(),"","");
+        RSAEncryptedDataset ds = Cryptographer.encryptObject(pr,serverKey);
+        System.out.println(Cryptographer.decryptObject(printer.print(ds),Cryptographer.getPrivateKey()));
+        authenticator.logout(ticket);
+        printer.print(ds);
+
     }
 }
