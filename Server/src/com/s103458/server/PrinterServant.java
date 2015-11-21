@@ -46,22 +46,26 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
             e.printStackTrace();
         }
         Ticket t = re.getTicket(Cryptographer.getPrivateKey());
+        AccessController.check(t.getName(),"print");
         if(Server.getAs().hasTicket(t.getTicketID())){
             writeToLog("Access granted");
             String reply = "Printing \""+re.getFilename()+"\" on printer: "+re.getPrinter();
             System.out.println(reply);
             try {
-                return Cryptographer.encrypt(reply.getBytes(),t.getPublicKey());
+                return Cryptographer.encryptObject(reply,t.getPublicKey());
             } catch (InvalidKeyException e) {
                 e.printStackTrace();
             } catch (BadPaddingException e) {
                 e.printStackTrace();
             } catch (IllegalBlockSizeException e) {
                 e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }else{
             writeToLog("Access denied");
         }
+
         return null;
     }
 

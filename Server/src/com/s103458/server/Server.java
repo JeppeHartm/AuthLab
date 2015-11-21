@@ -1,5 +1,6 @@
 package com.s103458.server;
 
+import java.lang.reflect.Method;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -22,5 +23,7 @@ public class Server {
         Registry reg = LocateRegistry.createRegistry(8081);
         reg.rebind("authenticator",as = new AuthenticationServant());
         reg.rebind("printer",ps = new PrinterServant());
+
+
     }
 }

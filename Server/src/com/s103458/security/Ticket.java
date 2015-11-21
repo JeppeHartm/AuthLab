@@ -9,6 +9,10 @@ import java.security.PublicKey;
  * Created by jeppe on 11/5/15.
  */
 public class Ticket implements Serializable {
+    public String getName() {
+        return name;
+    }
+
     String name;
     int ticketID;
     int reqid;

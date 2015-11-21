@@ -24,9 +24,11 @@ public class Client {
         RSAEncryptedDataset ticket = authenticator.login(Cryptographer.encryptObject(lr,serverKey));
 
         //printer.print(args[3]);
-        PrintRequest pr = new PrintRequest(ticket,"reqid".hashCode(),"","");
+        PrintRequest pr = new PrintRequest(ticket,"reqid".hashCode(),"document.txt","p007b306");
         RSAEncryptedDataset ds = Cryptographer.encryptObject(pr,serverKey);
-        System.out.println(Cryptographer.decryptObject(printer.print(ds),Cryptographer.getPrivateKey()));
+        RSAEncryptedDataset rep = printer.print(ds);
+        String msg = (String)Cryptographer.decryptObject(rep,Cryptographer.getPrivateKey());
+        System.out.println(msg);
         authenticator.logout(ticket);
         printer.print(ds);
 

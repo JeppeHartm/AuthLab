@@ -3,3 +3,11 @@
 1:	Access denied
 0:	Access granted
 1:	Access denied
+0:	Access granted
+1:	Access granted
+2:	Access granted
+0:	Access granted
+0:	Access granted
+1:	Access denied
+2:	Access granted
+3:	Access denied
