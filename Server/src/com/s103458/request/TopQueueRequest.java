@@ -13,4 +13,7 @@ public class TopQueueRequest extends Request{
         super(ticket, reqid);
         this.job = job;
     }
+    public int getJob(){
+        return job;
+    }
 }
