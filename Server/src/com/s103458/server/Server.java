@@ -29,7 +29,6 @@ public class Server {
         Registry reg = LocateRegistry.createRegistry(8081);
         reg.rebind("authenticator",as = new AuthenticationServant());
         reg.rebind("printer",ps = new PrinterServant());
-        AccessController.printPolicy();
         FileWriter fw = new FileWriter(new File("test"));
 
         String s = "Alice:"+Cryptographer.hash_string("alice")+":MANAGER\n"+
@@ -38,6 +37,8 @@ public class Server {
         "David:"+Cryptographer.hash_string("david")+":USER\n"+
         "Erica:"+Cryptographer.hash_string("erica")+":USER\n"+
         "Fred:"+Cryptographer.hash_string("fred")+":USER\n"+
+                "Ida:"+Cryptographer.hash_string("ida")+":POWERUSER\n"+
+                "Henry:"+Cryptographer.hash_string("henry")+":USER\n"+
         "George:"+Cryptographer.hash_string("george")+":USER";
         fw.write(s);
         fw.close();

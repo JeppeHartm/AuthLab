@@ -52,7 +52,9 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
             System.out.println("Decryption failed!");
         }
         Ticket t = requestObject.getTicket(Cryptographer.getPrivateKey());
-        if(!AccessController.check(t.getName(),"print")||!Server.getAs().hasTicket(t.getTicketID())){
+        boolean b1 = AccessController.check(t.getName(),operation);
+        boolean b2 = Server.getAs().hasTicket(t.getTicketID());
+        if(!b1||!b2){
             writeToLog("Access denied");
             return null;
         }else{
@@ -65,7 +67,7 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
     @Override
     public RSAEncryptedDataset print(RSAEncryptedDataset red) throws RemoteException {
         Object[] res = generateSecurityParams(red,"print");
-        assert res != null;
+        if(res==null)return null;
         PrintRequest re = (PrintRequest) res[0];
         String reply = "Printing \""+re.getFilename()+"\" on printer: "+re.getPrinter();
         System.out.println(reply);
@@ -88,7 +90,7 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
     @Override
     public RSAEncryptedDataset queue(RSAEncryptedDataset red) throws RemoteException {
         Object[] res = generateSecurityParams(red,"queue");
-        assert res != null;
+        if(res==null)return null;
         QueueRequest re = (QueueRequest) res[0];
         String reply = "";
         for (String s:queue) {
@@ -111,7 +113,7 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
     @Override
     public void topQueue(RSAEncryptedDataset red) throws RemoteException {
         Object[] res = generateSecurityParams(red,"topQueue");
-        assert res != null;
+        if(res==null)return;
         TopQueueRequest re = (TopQueueRequest) res[0];
         String job = queue.remove(re.getJob());
         queue.add(0,job);
@@ -120,26 +122,29 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
 
     @Override
     public void start(RSAEncryptedDataset red) throws RemoteException {
-        assert generateSecurityParams(red,"start") != null;
+        Object[] res = generateSecurityParams(red,"start");
+        if(res==null)return;
         if(!online) online = true;
     }
 
     @Override
     public void stop(RSAEncryptedDataset red) throws RemoteException {
-        assert generateSecurityParams(red,"stop") != null;
+        Object[] res = generateSecurityParams(red,"stop");
+        if(res==null)return;
         if(online) online = false;
     }
 
     @Override
     public void restart(RSAEncryptedDataset red) throws RemoteException {
-        assert generateSecurityParams(red,"restart") != null;
+        Object[] res = generateSecurityParams(red,"restart");
+        if(res==null)return;
         online = true;
     }
 
     @Override
     public RSAEncryptedDataset status(RSAEncryptedDataset red) throws RemoteException {
         Object[] res = generateSecurityParams(red,"status");
-        assert res != null;
+        if(res==null)return null;
         StatusRequest re = (StatusRequest) res[0];
         String reply = "Print server is "+(online?"online":"offline");
         try {
@@ -159,7 +164,7 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
     @Override
     public RSAEncryptedDataset readConfig(RSAEncryptedDataset red) throws RemoteException {
         Object[] res = generateSecurityParams(red,"readConfig");
-        assert res != null;
+        if(res==null)return null;
         ReadConfigRequest re = (ReadConfigRequest) res[0];
         String reply = "";
         for (Map.Entry<String,String> e:config.entrySet()) {
@@ -182,7 +187,7 @@ public class PrinterServant extends UnicastRemoteObject implements PrinterServic
     @Override
     public void setConfig(RSAEncryptedDataset red) throws RemoteException {
         Object[] res = generateSecurityParams(red,"setConfig");
-        assert res != null;
+        if(res==null)return;
         SetConfigRequest re = (SetConfigRequest) res[0];
         config.put(re.getParameter(),re.getValue());
     }

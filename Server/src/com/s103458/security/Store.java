@@ -8,7 +8,7 @@ import java.util.Map;
  * Created by jeppe on 11/4/15.
  */
 public class Store {
-    private static final String password_file = "Server/res/passwords";
+    private static final String PASSWORD_FILE = "Server/res/passwords";
     private static Map<String, String> roles;
     static {
         importRoles();
@@ -20,7 +20,7 @@ public class Store {
         roles = new HashMap<>();
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(new InputStreamReader(new FileInputStream(password_file)));
+            reader = new BufferedReader(new InputStreamReader(new FileInputStream(PASSWORD_FILE)));
         }catch(FileNotFoundException fnfe){
             System.out.println("Couldn't find the passwords file!");
         }
@@ -34,7 +34,7 @@ public class Store {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        assert data.matches("((\\w+:::(.|\\s)*:::[A-Z]+[@])*\\w+:::(.|\\s)*:::[A-Z]+)?");
+        assert data.matches("((\\w+:::(.|\\s)*:::[A-Z]+[@])*\\w+:::(.|\\s)*:::[A-Z]+)?") : "Invalid password file";
         String[] entries = data.split("@");
         for(String entry:entries){
             String[] subs = entry.split(":::");
@@ -44,7 +44,7 @@ public class Store {
 
     public static void store(String name, String hashedkey) throws IOException {
         if(!lookup(name,hashedkey)) {
-            FileWriter fw = new FileWriter(password_file, true);
+            FileWriter fw = new FileWriter(PASSWORD_FILE, true);
             PrintWriter pw = new PrintWriter(fw);
             pw.println(name + ":::" + hashedkey);
             pw.close();
@@ -54,7 +54,7 @@ public class Store {
     public static boolean lookup(String name,String hashedkey) throws IOException {
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(new InputStreamReader(new FileInputStream(password_file)));
+            reader = new BufferedReader(new InputStreamReader(new FileInputStream(PASSWORD_FILE)));
         }catch(FileNotFoundException fnfe){
             return false;
         }
